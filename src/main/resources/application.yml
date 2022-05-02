@@ -1,0 +1,10 @@
+micronaut:
+  application:
+    name: actor
+tmdb:
+  api-key: fd6bbf5b30d16dbe410178c8f6c2b0a8
+netty:
+  default:
+    allocator:
+      max-order: 3
+
