@@ -25,6 +25,7 @@ public class PeopleController {
     return peopleService.getById(id);
   }
 
+  @Get("/{id}/movies")
   public Optional<List<MovieCredits>> getMovieCreditsById(int id) {
     return peopleService.getMovieCreditsById(id);
   }
