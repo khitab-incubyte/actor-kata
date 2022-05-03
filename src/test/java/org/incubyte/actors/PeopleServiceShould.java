@@ -51,6 +51,9 @@ class PeopleServiceShould {
         movieWrapper = new MovieWrapper();
         MovieCredits movieCredits = new MovieCredits();
         movieCredits.setTitle("War of the Worlds");
+        List<MovieCredits> movieCreditsList = new ArrayList<>();
+        movieCreditsList.add(movieCredits);
+        movieWrapper.setCast(movieCreditsList);
     }
 
     @Test
