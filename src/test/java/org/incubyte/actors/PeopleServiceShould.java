@@ -1,14 +1,11 @@
 package org.incubyte.actors;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -27,6 +24,7 @@ class PeopleServiceShould {
     Page page2;
     private final Clock clock = Clock.fixed(ZonedDateTime.parse("2021-10-25T00:00:00.000+09:00[Asia/Seoul]").toInstant(), ZoneId.of("Asia/Seoul"));
     Person person;
+    MovieWrapper movieWrapper;
 
     @BeforeEach
     public void init() {
@@ -50,6 +48,9 @@ class PeopleServiceShould {
         person = new Person();
         person.setBirthday("1962-07-03");
 
+        movieWrapper = new MovieWrapper();
+        MovieCredits movieCredits = new MovieCredits();
+        movieCredits.setTitle("War of the Worlds");
     }
 
     @Test
@@ -77,5 +78,15 @@ class PeopleServiceShould {
         PeopleService peopleService = new PeopleService(tmbdClient);
         Optional<Person> person = peopleService.getById(500);
         assertThat(person.get().getAge()).isEqualTo(59);
+    }
+
+    @Test
+    public void invoke_http_client_to_get_movie_credits_by_id()
+    {
+        when(tmbdClient.getMovieCreditsById(500, null)).thenReturn(Optional.of(movieWrapper));
+        PeopleService peopleService = new PeopleService(tmbdClient);
+
+        Optional<List<MovieCredits>> movieWrapperMaybe = peopleService.getMovieCreditsById(500);
+        assertThat(movieWrapperMaybe.get().get(0).getTitle()).isEqualTo("War of the Worlds");
     }
 }

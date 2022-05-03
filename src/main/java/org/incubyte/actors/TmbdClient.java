@@ -13,4 +13,6 @@ public interface TmbdClient {
 
     @Get("person/{id}{?api_key}")
     Optional<Person> getById(int id, @QueryValue String api_key);
+
+    Optional<MovieWrapper> getMovieCreditsById(int id, @QueryValue String api_key);
 }

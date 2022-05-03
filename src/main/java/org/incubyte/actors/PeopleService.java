@@ -6,7 +6,6 @@ import jakarta.inject.Singleton;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +46,14 @@ public class PeopleService {
         return byId;
     }
 
-    public Optional<List<MovieCredits>> getMocieCreditsById(int id) {
-        throw new UnsupportedOperationException();
+    public Optional<List<MovieCredits>> getMovieCreditsById(int id) {
+        Optional<MovieWrapper> maybeMovieWrapper = this.tmbdClient.getMovieCreditsById(id, apiKey);
+        MovieWrapper movieWrapper = maybeMovieWrapper.get();
+        List<MovieCredits> movieCredits = movieWrapper.getCast();
+        if (movieCredits.size()== 0)
+        {
+            return Optional.empty();
+        }
+        return  Optional.of(movieCredits);
     }
 }

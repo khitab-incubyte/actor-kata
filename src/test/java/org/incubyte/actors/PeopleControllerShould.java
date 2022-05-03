@@ -3,7 +3,6 @@ package org.incubyte.actors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -34,6 +33,6 @@ public class PeopleControllerShould {
     public void invoke_service_to_get_movie_credits() {
         PeopleController peopleController = new PeopleController(peopleService);
         Optional<List<MovieCredits>> movieCreditsList = peopleController.getMovieCreditsById(500);
-        verify(peopleService).getMocieCreditsById(500);
+        verify(peopleService).getMovieCreditsById(500);
     }
 }
