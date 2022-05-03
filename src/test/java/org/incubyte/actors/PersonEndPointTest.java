@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -57,6 +58,15 @@ public class PersonEndPointTest {
         assertThat(person.getImage()).isNotEmpty();
         assertThat(person.getGender()).isEqualTo(2);
         assertThat(person.getPlaceOfBirth()).isEqualTo("Syracuse, New York, USA");
+    }
+
+    @Test
+    public void should_return_movie_credits()
+    {
+        List<MovieCredits> movieCredits = new ArrayList<MovieCredits>();
+        movieCredits = httpClient.toBlocking().retrieve(HttpRequest.GET("people/500/movies"), Argument.listOf(MovieCredits.class));
+        MovieCredits movie = movieCredits.get(0);
+        assertThat(movie.getTitle()).isEqualTo("War of the Worlds");
     }
 
 }
