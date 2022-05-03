@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 @Singleton
 public class PeopleService {
-    private TmbdClient tmbdClient;
+    private final TmbdClient tmbdClient;
 
     @Value("${tmdb.api-key}")
     private String apiKey;
@@ -55,5 +55,14 @@ public class PeopleService {
             return Optional.empty();
         }
         return  Optional.of(movieCredits);
+    }
+
+    public Optional<List<TVCredits>> getTVCreditsById(int id) {
+        Optional<TVCreditsWrapper> tvCreditsWrapperMaybe = this.tmbdClient.getTVCreditsByID(id,apiKey);
+        List<TVCredits> tvCreditsList = tvCreditsWrapperMaybe.get().getTvCreditsList();
+        if(tvCreditsList.size() == 0) {
+            return  Optional.empty();
+        }
+        return Optional.of(tvCreditsList);
     }
 }
