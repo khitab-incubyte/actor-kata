@@ -67,6 +67,9 @@ public class PersonEndPointTest {
         movieCredits = httpClient.toBlocking().retrieve(HttpRequest.GET("people/500/movies"), Argument.listOf(MovieCredits.class));
         MovieCredits movie = movieCredits.get(0);
         assertThat(movie.getTitle()).isEqualTo("War of the Worlds");
+        Assertions.assertThat(movie.getOverview()).isNotNull();
+        Assertions.assertThat(movie.getCharacter()).isEqualTo("Ray Ferrier");
+        Assertions.assertThat(movie.getPosterPath()).isNotNull();
     }
 
 }
