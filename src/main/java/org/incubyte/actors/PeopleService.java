@@ -46,4 +46,8 @@ public class PeopleService {
         }
         return byId;
     }
+
+    public Optional<List<MovieCredits>> getMocieCreditsById(int id) {
+        throw new UnsupportedOperationException();
+    }
 }

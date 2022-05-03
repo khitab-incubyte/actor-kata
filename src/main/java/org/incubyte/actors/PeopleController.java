@@ -24,4 +24,8 @@ public class PeopleController {
     public Optional<Person> getById(int id) {
         return peopleService.getById(id);
     }
+
+    public Optional<List<MovieCredits>> getMovieCreditsById(int id) {
+        throw new UnsupportedOperationException();
+    }
 }
