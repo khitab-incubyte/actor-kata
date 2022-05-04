@@ -35,4 +35,11 @@ public class PeopleControllerShould {
         Optional<List<MovieCredits>> movieCreditsList = peopleController.getMovieCreditsById(500);
         verify(peopleService).getMovieCreditsById(500);
     }
+
+    @Test
+    public void invoke_service_to_get_tv_credits_by_id() {
+        PeopleController peopleController = new PeopleController(peopleService);
+        Optional<List<TVCredits>> tvCreditsListMaybe = peopleController.getTVCreditsById(71070);
+        verify(peopleService).getTVCreditsById(71070);
+    }
 }

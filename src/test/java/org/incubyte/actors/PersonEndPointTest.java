@@ -72,4 +72,19 @@ public class PersonEndPointTest {
         Assertions.assertThat(movie.getPosterPath()).isNotNull();
     }
 
+    @Test
+    public void should_return_tv_credits_based_on_id() {
+        List<TVCredits> tvCreditsList = new ArrayList<>();
+
+        tvCreditsList = this.httpClient.toBlocking().retrieve(HttpRequest.GET("/people/71070/tvshows"), Argument.listOf(TVCredits.class));
+
+        TVCredits tvCredits = tvCreditsList.get(0);
+
+        Assertions.assertThat(tvCredits.getName()).isNotNull();
+        Assertions.assertThat(tvCredits.getOverview()).isNotEmpty();
+        Assertions.assertThat(tvCredits.getPosterPath()).isNotNull();
+        Assertions.assertThat(tvCredits.getEpisodeCount()).isNotNull();
+
+    }
+
 }

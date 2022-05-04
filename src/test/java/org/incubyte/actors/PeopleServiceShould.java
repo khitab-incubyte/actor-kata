@@ -1,5 +1,6 @@
 package org.incubyte.actors;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ class PeopleServiceShould {
     private final Clock clock = Clock.fixed(ZonedDateTime.parse("2021-10-25T00:00:00.000+09:00[Asia/Seoul]").toInstant(), ZoneId.of("Asia/Seoul"));
     Person person;
     MovieWrapper movieWrapper;
+    TVCreditsWrapper tvWrapper;
 
     @BeforeEach
     public void init() {
@@ -54,6 +56,18 @@ class PeopleServiceShould {
         List<MovieCredits> movieCreditsList = new ArrayList<>();
         movieCreditsList.add(movieCredits);
         movieWrapper.setCast(movieCreditsList);
+
+        TVCredits tvCredits = new TVCredits();
+        tvCredits.setName("aBC");
+        tvCredits.setEpisodeCount(6);
+        tvCredits.setOverview("shbfdhvfods");
+        tvCredits.setPosterPath("sjfbidjbf");
+
+        List<TVCredits> tvCreditsList = new ArrayList<>();
+        tvCreditsList.add(tvCredits);
+        tvWrapper = new TVCreditsWrapper();
+        tvWrapper.setCast(tvCreditsList);
+
     }
 
     @Test
@@ -91,5 +105,14 @@ class PeopleServiceShould {
 
         Optional<List<MovieCredits>> movieWrapperMaybe = peopleService.getMovieCreditsById(500);
         assertThat(movieWrapperMaybe.get().get(0).getTitle()).isEqualTo("War of the Worlds");
+    }
+
+    @Test
+    public void invoke_http_client_to_get_tv_credits_by_id() {
+        when(tmbdClient.getTVCreditsByID(123,null)).thenReturn(Optional.of(tvWrapper));
+        PeopleService peopleService = new PeopleService(tmbdClient);
+
+        Optional<List<TVCredits>> tvCreditsListMaybe = peopleService.getTVCreditsById(123);
+        Assertions.assertThat(tvCreditsListMaybe.get().get(0)).isNotNull();
     }
 }
